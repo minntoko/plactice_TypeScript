@@ -10,9 +10,11 @@ const add = (n1: number, n2: number, showResult: boolean, phrase: string) => {
   }
 }
 
-const number1 = 5;
-const number2 = 2.8;
+let number1: number;
+number1 = 5;
+const number2 = 2.8; // 完璧に型が推論される場合は型を明示する必要はない
 const printResult = true;
-const resultPhrase = 'Result: ';
+let resultPhrase = 'Result: ';
+// resultPhrase = 0;
 
 const result = add(number1, number2, printResult, resultPhrase);
