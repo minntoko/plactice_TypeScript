@@ -1,25 +1,18 @@
-const add = (n1: number, n2: number): number => {
-  return n1 + n2;
+let userInput: unknown;
+let anyInput: any;
+let userName: string;
+
+userInput = 5;
+userInput = "Max";
+
+if( typeof userInput === "string" ) {
+  userName = userInput;
 }
 
-const printResult = (num: number): void => {
-  console.log("Result: " + num);
+const  generateError = (message: string, code: number): never => {
+  throw {message: message, errorCode: code};
+  // while (true) {}
 }
 
-const addAndHandle = (n1: number, n2: number, cb: (num: number) => void) => {
-  const result = n1 + n2;
-  cb(result);
-}
-
-addAndHandle(10, 20, (addResult) => {
-  console.log(addResult);
-});
-
-let combineValues: (a: number, b: number) => number;
-
-combineValues = add;
-// combineValues = printResult;
-// combineValues = 5;
-console.log(combineValues(3, 5));
-
-printResult(add(5, 12));
+const result = generateError("エラーが発生しました", 500);
+console.log(result); // undefinedすら表示されない なぜならスクリプトが上で停止するから
