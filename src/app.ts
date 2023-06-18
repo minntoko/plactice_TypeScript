@@ -1,8 +1,12 @@
-const button = document.querySelector('button')!;
+const button = document.querySelector('button');
+
+function clickHandler(message: string) {
+  console.log("Clicked!" + message);
+}
 
 // コメント
-button.addEventListener('click', () => {
-  console.log("clicked!");
-});
+if( button ) {
+  button.addEventListener('click', clickHandler.bind(null, "You're welcome!"));
+}
 
 const map = new Map();
