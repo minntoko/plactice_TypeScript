@@ -2,8 +2,8 @@ let userInput: unknown;
 let anyInput: any;
 let userName: string;
 
-userInput = 5;
 userInput = "Max";
+anyInput = 5;
 
 if( typeof userInput === "string" ) {
   userName = userInput;
