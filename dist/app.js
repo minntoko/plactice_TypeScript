@@ -1,5 +1,5 @@
 "use strict";
-class Departmet {
+class Department {
     constructor(id, name) {
         this.id = id;
         this.name = name;
@@ -16,9 +16,30 @@ class Departmet {
         console.log(this.employees);
     }
 }
-const accounting = new Departmet("d1", "Accounting");
-accounting.addEmployee("Max");
-accounting.addEmployee("Manu");
-accounting.name = "NEW NAME";
-accounting.describe();
-accounting.printEmployeeInformaiton();
+class ITDepartment extends Department {
+    constructor(id, admins) {
+        super(id, "IT");
+        this.admins = admins;
+    }
+}
+class AccountingDepartment extends Department {
+    constructor(id, reports) {
+        super(id, "Accounting");
+        this.reports = reports;
+    }
+    addReport(text) {
+        this.reports.push(text);
+    }
+    printReports() {
+        console.log(this.reports);
+    }
+}
+const it = new ITDepartment("d1", ["Max"]);
+it.addEmployee("Max");
+it.addEmployee("Manu");
+it.describe();
+it.printEmployeeInformaiton();
+console.log(it);
+const accounting = new AccountingDepartment("d2", []);
+accounting.addReport("Something");
+accounting.printReports();
