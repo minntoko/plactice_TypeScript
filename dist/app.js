@@ -33,6 +33,12 @@ class AccountingDepartment extends Department {
     printReports() {
         console.log(this.reports);
     }
+    addEmployee(name) {
+        if (name === "Max") {
+            return;
+        }
+        this.employees.push(name);
+    }
 }
 const it = new ITDepartment("d1", ["Max"]);
 it.addEmployee("Max");
@@ -43,3 +49,6 @@ console.log(it);
 const accounting = new AccountingDepartment("d2", []);
 accounting.addReport("Something");
 accounting.printReports();
+accounting.addEmployee("Max");
+accounting.addEmployee("Manu");
+console.log(accounting);
