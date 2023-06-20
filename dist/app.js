@@ -45,6 +45,13 @@ class AccountingDepartment extends Department {
         this.reports = reports;
         this.lastReport = this.reports[0];
     }
+    static getInstance() {
+        if (this.instance) {
+            return this.instance;
+        }
+        this.instance = new AccountingDepartment("d2", []);
+        return this.instance;
+    }
     describe() {
         console.log("会計部門 - ID: " + this.id);
     }
@@ -70,7 +77,9 @@ it.addEmployee("Manu");
 it.describe();
 it.printEmployeeInformaiton();
 console.log(it);
-const accounting = new AccountingDepartment("d2", []);
+const accounting = AccountingDepartment.getInstance();
+const accounting2 = AccountingDepartment.getInstance();
+console.log(`accountingとaccounting2は同じですか? ${accounting === accounting2}`);
 accounting.mostRecentReport = "通期会計レポート";
 accounting.addReport("Something");
 console.log(accounting.mostRecentReport);
