@@ -24,29 +24,29 @@ type Numeric = number | boolean;
 type Universal = Combinable & Numeric;
 
 function add(a: Combinable, b: Combinable) {
-  if( typeof a === "string" || typeof b === "string" ) {
+  if (typeof a === "string" || typeof b === "string") {
     return a.toString() + b.toString();
   }
   return a + b;
 }
 
 type UnknownEmployee = Employee | Admin;
-function printEmployeeInfo( emp: UnknownEmployee ) {
+function printEmployeeInfo(emp: UnknownEmployee) {
   console.log(emp.name);
-  if ( "privileges" in emp ) {
+  if ("privileges" in emp) {
     console.log("Privileges " + emp.privileges);
   }
-  if ( "startDate" in emp ) {
+  if ("startDate" in emp) {
     console.log("Start Date " + emp.startDate);
   }
 }
 
 // printEmployeeInfo(e1);
-printEmployeeInfo({name: "Max", startDate: new Date()});
+printEmployeeInfo({ name: "Max", startDate: new Date() });
 
 class Car {
   drive() {
-    console.log("運転中..."); 
+    console.log("運転中...");
   }
 }
 
@@ -67,10 +67,37 @@ const v2 = new Truck;
 
 function useVehicle(vehicle: Vehicle) {
   vehicle.drive();
-  if(vehicle instanceof Truck) {
+  if (vehicle instanceof Truck) {
     vehicle.loadCargo(1000);
   }
 }
 
 useVehicle(v1);
 useVehicle(v2);
+
+interface Bird {
+  type: "bird";
+  flyingSpeed: number;
+}
+
+interface Horse {
+  type: "horse";
+  runningSpeed: number;
+}
+
+type Animal = Bird | Horse;
+
+function moveAnimal(animal: Animal) {
+  let speed;
+  switch (animal.type) {
+    case "bird":
+      speed = animal.flyingSpeed;
+      break;
+    case "horse":
+      speed = animal.runningSpeed;
+      break;
+  }
+  console.log("移動速度: " + speed);
+}
+
+moveAnimal({type: "bird", flyingSpeed: 10})
