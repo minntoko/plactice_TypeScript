@@ -100,4 +100,10 @@ function moveAnimal(animal: Animal) {
   console.log("移動速度: " + speed);
 }
 
-moveAnimal({type: "bird", flyingSpeed: 10})
+moveAnimal({type: "bird", flyingSpeed: 10});
+
+// const userInputElement = <HTMLInputElement>document.getElementById("user-input")!;
+const userInputElement = document.getElementById("user-input");
+if(userInputElement) {
+  (userInputElement as HTMLInputElement).value = "こんにちは";
+}
