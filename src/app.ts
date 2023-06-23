@@ -36,7 +36,7 @@ function extractAndConvert<T extends object, U extends keyof T>(obj: T, key: U) 
   return "Value: " + obj[key];
 }
 
-extractAndConvert({name: "Max"}, "name");
+extractAndConvert({ name: "Max" }, "name");
 
 class DataStorage<T extends number | string | boolean> {
   private data: T[] = [];
@@ -46,7 +46,7 @@ class DataStorage<T extends number | string | boolean> {
   }
 
   removeItem(item: T) {
-    if(this.data.indexOf(item) === -1) {
+    if (this.data.indexOf(item) === -1) {
       return;
     }
     this.data.splice(this.data.indexOf(item), 1)
@@ -72,3 +72,21 @@ const numberStorage = new DataStorage<number>();
 
 // objStorage.removeItem(obj);
 // console.log(objStorage.getItems());
+
+interface CourseGoal {
+  title: string;
+  description: string;
+  completeUntil: Date;
+}
+
+function createCourseGoal(title: string, description: string, date: Date): CourseGoal {
+  let courseGoal: Partial<CourseGoal> = {};
+  courseGoal.title = title;
+  courseGoal.description = description;
+  courseGoal.completeUntil = date;
+  return <CourseGoal>courseGoal;
+}
+
+const names: Readonly<string[]> = ["Max", "Anna"];
+// names.push("Manu");
+// names.pop();
