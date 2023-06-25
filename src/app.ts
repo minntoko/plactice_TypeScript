@@ -1,6 +1,6 @@
 function Logger(logString: string) {
   console.log("LOGGER ファクトリ");
-  return function(constructor: Function) {
+  return function (constructor: Function) {
     console.log(logString);
     console.log(constructor);
   }
@@ -12,7 +12,7 @@ function WithTemplate(template: string, hookId: string) {
     console.log("テンプレートを表示");
     const hookEl = document.getElementById(hookId);
     const p = new constructor();
-    if(hookEl) {
+    if (hookEl) {
       hookEl.innerHTML = template;
       hookEl.querySelector("h1").textContent = p.name;
     }
@@ -39,13 +39,35 @@ function Log(target: any, propertyName: string | Symbol) {
   console.log(target, propertyName);
 }
 
+function Log2(target: any, name: string, descriptor: PropertyDescriptor) {
+  console.log("Accessor デコレータ");
+  console.log(target);
+  console.log(name);
+  console.log(descriptor);
+}
+
+function Log3(target: any, name: string | Symbol, descriptor: PropertyDescriptor) {
+  console.log("Method デコレータ");
+  console.log(target);
+  console.log(name);
+  console.log(descriptor);
+}
+
+function Log4(target: any, name: string | Symbol, position: number) {
+  console.log("Paramete デコレータ");
+  console.log(target);
+  console.log(name);
+  console.log(position);
+}
+
 class Product {
   @Log
   title: string;
   private _price: number;
 
+  @Log2
   set price(val: number) {
-    if(val > 0) {
+    if (val > 0) {
       this._price
     }
     throw new Error("不正な価格です - 0以下は設定できません");
@@ -56,7 +78,8 @@ class Product {
     this._price = p;
   }
 
-  getPriceWithTax(tax: number) {
-    return this._price * (1+tax);
+  @Log3
+  getPriceWithTax(@Log4 tax: number) {
+    return this._price * (1 + tax);
   }
 }
