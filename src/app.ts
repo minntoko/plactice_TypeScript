@@ -11,7 +11,7 @@ class Project {
     public description: string,
     public manday: number,
     public states: ProjectStatus
-    ) {
+  ) {
 
   }
 }
@@ -120,7 +120,13 @@ class ProjectList {
     this.assignedProjects = [];
 
     projectState.addListener((projects: Project[]) => {
-      this.assignedProjects = projects;
+      const relevantProject = projects.filter(prj => {
+        if (this.type === "active") {
+          return prj.states === ProjectStatus.Active;
+        }
+        return prj.states === ProjectStatus.Finish;
+      })
+      this.assignedProjects = relevantProject;
       this.renderProjects();
     });
 
@@ -130,6 +136,7 @@ class ProjectList {
 
   private renderProjects() {
     const listEl = document.getElementById(`${this.type}-projects-list`)! as HTMLUListElement;
+    listEl.innerHTML = "";
     this.assignedProjects.forEach((prjItem) => {
       const listItem = document.createElement("li");
       listItem.textContent = prjItem.title;
