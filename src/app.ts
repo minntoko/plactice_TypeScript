@@ -22,7 +22,7 @@ class Project {
     public title: string,
     public description: string,
     public manday: number,
-    public states: ProjectStatus
+    public status: ProjectStatus
   ) {
 
   }
@@ -63,6 +63,18 @@ class ProjectState extends State<Project> {
       ProjectStatus.Active
     )
     this.projects.push(newProject);
+    this.updateListeners();
+  }
+
+  moveProject(projectId: string, newStatus: ProjectStatus) {
+    const project = this.projects.find(prj => prj.id === projectId);
+    if (project && project.status !== newStatus) {
+      project.status = newStatus;
+    }
+    this.updateListeners();
+  }
+
+  private updateListeners() {
     this.listeners.forEach((listenerFn) => {
       listenerFn(this.projects.slice());
     });
@@ -180,7 +192,6 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements 
 
   @autobind
   dragEndHandler(_: DragEvent): void {
-    console.log("Drag終了");
   }
 
   configure() {
@@ -216,9 +227,10 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> implements Drag
     }
   }
 
+  @autobind
   dropHandler(event: DragEvent): void {
-    console.log(event.dataTransfer!.getData("text/plain"));
-    
+    const prjId = event.dataTransfer!.getData("text/plain");
+    projectState.moveProject(prjId, this.type === "active" ? ProjectStatus.Active : ProjectStatus.Finish);
   }
 
   @autobind
@@ -235,9 +247,9 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> implements Drag
     projectState.addListener((projects: Project[]) => {
       const relevantProject = projects.filter(prj => {
         if (this.type === "active") {
-          return prj.states === ProjectStatus.Active;
+          return prj.status === ProjectStatus.Active;
         }
-        return prj.states === ProjectStatus.Finish;
+        return prj.status === ProjectStatus.Finish;
       })
       this.assignedProjects = relevantProject;
       this.renderProjects();

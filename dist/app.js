@@ -11,12 +11,12 @@ var ProjectStatus;
     ProjectStatus[ProjectStatus["Finish"] = 1] = "Finish";
 })(ProjectStatus || (ProjectStatus = {}));
 class Project {
-    constructor(id, title, description, manday, states) {
+    constructor(id, title, description, manday, status) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.manday = manday;
-        this.states = states;
+        this.status = status;
     }
 }
 class State {
@@ -42,6 +42,16 @@ class ProjectState extends State {
     addProject(title, description, manday) {
         const newProject = new Project(Math.random().toString(), title, description, manday, ProjectStatus.Active);
         this.projects.push(newProject);
+        this.updateListeners();
+    }
+    moveProject(projectId, newStatus) {
+        const project = this.projects.find(prj => prj.id === projectId);
+        if (project && project.status !== newStatus) {
+            project.status = newStatus;
+        }
+        this.updateListeners();
+    }
+    updateListeners() {
         this.listeners.forEach((listenerFn) => {
             listenerFn(this.projects.slice());
         });
@@ -113,7 +123,6 @@ class ProjectItem extends Component {
         event.dataTransfer.effectAllowed = "move";
     }
     dragEndHandler(_) {
-        console.log("Drag終了");
     }
     configure() {
         this.element.addEventListener("dragstart", this.dragStartHandler);
@@ -147,7 +156,8 @@ class ProjectList extends Component {
         }
     }
     dropHandler(event) {
-        console.log(event.dataTransfer.getData("text/plain"));
+        const prjId = event.dataTransfer.getData("text/plain");
+        projectState.moveProject(prjId, this.type === "active" ? ProjectStatus.Active : ProjectStatus.Finish);
     }
     dragLeaveHandler(_) {
         const listEl = this.element.querySelector("ul");
@@ -160,9 +170,9 @@ class ProjectList extends Component {
         projectState.addListener((projects) => {
             const relevantProject = projects.filter(prj => {
                 if (this.type === "active") {
-                    return prj.states === ProjectStatus.Active;
+                    return prj.status === ProjectStatus.Active;
                 }
-                return prj.states === ProjectStatus.Finish;
+                return prj.status === ProjectStatus.Finish;
             });
             this.assignedProjects = relevantProject;
             this.renderProjects();
@@ -184,6 +194,9 @@ class ProjectList extends Component {
 __decorate([
     autobind
 ], ProjectList.prototype, "dragOverHandler", null);
+__decorate([
+    autobind
+], ProjectList.prototype, "dropHandler", null);
 __decorate([
     autobind
 ], ProjectList.prototype, "dragLeaveHandler", null);
