@@ -5,9 +5,9 @@ interface Draggable {
 }
 
 interface Dragtarget {
-  dragOverHandler(event: DragEvent): void;
-  dropHandler(event: DragEvent): void;
-  dragLeaveHandler(event: DragEvent): void;
+  dragOverHandler(event: DragEvent): void; // その場所が有効なドロップ対象かブラウザに伝えるためのイベントハンドラ
+  dropHandler(event: DragEvent): void; // ドロップが起きた時に呼ばれるイベントハンドラ 画面の更新など
+  dragLeaveHandler(event: DragEvent): void; // ビジュアル上のフィードバッグを行うのに便利なイベントハンドラ // ドラッグした時に背景色を変えたり、表示を元に戻す
 }
 
 // Project Type
@@ -195,7 +195,7 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements 
 }
 
 // ProjectList Class
-class ProjectList extends Component<HTMLDivElement, HTMLElement> {
+class ProjectList extends Component<HTMLDivElement, HTMLElement> implements Dragtarget {
   assignedProjects: Project[];
 
   constructor(private type: "active" | "finished") {
@@ -205,7 +205,28 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
     this.configure();
     this.renderContent();
   }
+
+  @autobind
+  dragOverHandler(_: DragEvent): void {
+    const listEl = this.element.querySelector("ul")!;
+    listEl.classList.add("droppable");
+  }
+
+  dropHandler(_: DragEvent): void {
+    
+  }
+
+  @autobind
+  dragLeaveHandler(_: DragEvent): void {
+    const listEl = this.element.querySelector("ul")!;
+    listEl.classList.remove("droppable");
+  }
+
   configure() {
+    this.element.addEventListener("dragover", this.dragOverHandler);
+    this.element.addEventListener("drop", this.dropHandler);
+    this.element.addEventListener("dragleave", this.dragLeaveHandler);
+
     projectState.addListener((projects: Project[]) => {
       const relevantProject = projects.filter(prj => {
         if (this.type === "active") {
