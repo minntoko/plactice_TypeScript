@@ -20,7 +20,7 @@ module.exports = {
       },
     ],
   },
-  devtool: "eval",
+  devtool: "source-map",
   module: {
     rules: [
       {
