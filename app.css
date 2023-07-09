@@ -1,0 +1,44 @@
+@charset "utf-8";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+#map {
+  width: 90%;
+  height: 20rem;
+  border: 1px solid #ccc;
+  margin: 2rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+form {
+  text-align: center;
+  margin: 2rem auto;
+}
+
+#address {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #ccc;
+  padding: 5px 10px;
+}
+
+#address:focus {
+  border-bottom: 2px solid rgb(82, 194, 255);
+}
+
+button {
+  outline: none;
+  border: none;
+  padding: 5px 10px;
+  background-color: rgb(156, 220, 255);
+}

@@ -6,10 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>TypeScriptを理解する</title>
     <script src="dist/bundle.js" defer></script>
+    <link rel="stylesheet" href="app.css">
   </head>
   <body>
-    <script>
-      var GLOBAL = "グローバル変数";
-    </script>
+    <div id="map">
+      <p>住所を入力してください</p>
+    </div>
+    <form>
+      <input type="text" id="address" placeholder="住所を入力" />
+      <button type="submit">検索</button>
+    </form>
   </body>
 </html>
